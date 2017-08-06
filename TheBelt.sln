@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBelt", "TheBelt\TheBelt.csproj", "{EAB91914-4DDE-46F4-9EF8-A87D09F4DD03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBelt.xUnit", "TheBelt.xUnit\TheBelt.xUnit.csproj", "{0FC5F0AB-45F8-453E-99EB-82EF38E6A5EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EAB91914-4DDE-46F4-9EF8-A87D09F4DD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAB91914-4DDE-46F4-9EF8-A87D09F4DD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAB91914-4DDE-46F4-9EF8-A87D09F4DD03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FC5F0AB-45F8-453E-99EB-82EF38E6A5EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FC5F0AB-45F8-453E-99EB-82EF38E6A5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FC5F0AB-45F8-453E-99EB-82EF38E6A5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FC5F0AB-45F8-453E-99EB-82EF38E6A5EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
