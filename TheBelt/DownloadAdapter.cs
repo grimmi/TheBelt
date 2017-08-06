@@ -65,6 +65,7 @@ namespace TheBelt
         }
     }
 
+    [AttributeUsage(AttributeTargets.Property)]
     public class InputAttribute : Attribute
     {
         public bool IsOptional { get; }
@@ -77,6 +78,7 @@ namespace TheBelt
         }
     }
 
+    [AttributeUsage(AttributeTargets.Property)]
     public class OutputAttribute : Attribute
     {
         public string Description { get; }
