@@ -1,0 +1,27 @@
+{
+  "name": "testbelt",
+  "steps": [
+    {
+      "sequence":  0,
+      "adapter": "downloadapter",
+      "url": "http://www.google.com"
+    },
+    {
+      "sequence": 1,
+      "adapter": "zipadapter",
+      "inputsequence": 0
+    },
+    {
+      "sequence": 2,
+      "adapter": "unzipadapter",
+      "outputdirectory": "c:\temp",
+      "inputsequence": 1
+    },
+    {
+      "sequence": 3,
+      "adapter": "writeradapter",
+      "outputfile": "c:\temp\test.txt",
+      "inputsequence": 0
+    }
+  ]
+}

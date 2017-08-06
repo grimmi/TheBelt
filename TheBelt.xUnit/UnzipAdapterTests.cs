@@ -7,12 +7,12 @@ using Xunit;
 
 namespace TheBelt.xUnit
 {
-    public class ZipAdapterTests
+    public class UnzipAdapterTests
     {
         [Fact]
-        public async Task ZipAdapterShouldUnzipArchiveToTempPath()
+        public async Task UnzipAdapterShouldUnzipArchiveToTempPath()
         {
-            var adapter = new ZipAdapter()
+            var adapter = new UnzipAdapter()
             {
                 Archive = @"c:\temp\testarchive.zip"
             };

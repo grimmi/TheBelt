@@ -9,44 +9,42 @@ namespace TheBelt
 {
     public class ZipAdapter : BaseAdapter
     {
-        public override ResultType ResultType => ResultType.Directory;
+        public override ResultType ResultType => ResultType.File;
 
         [Input(false)]
-        public string Archive { get; set; }
+        public string Input { get; set; }
+
         [Input(true)]
-        [Output("directory into which the archive is extracted")]
-        public string OutputDirectory { get; set; }
+        [Output("the output file / directory")]
+        public string OutputPath { get; set; }
 
         public override Task<string> GetResult()
         {
             if(!Finished)
             {
-                throw new InvalidOperationException("this operation is not finished!");
+                throw new InvalidOperationException("operation is not finished!");
             }
-
-            return Task.FromResult(OutputDirectory);
+            return Task.FromResult(OutputPath);
         }
 
         public override Task Start()
         {
             return Task.Run(() =>
             {
-                OutputDirectory = string.IsNullOrWhiteSpace(OutputDirectory)
-                    ? Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString())
-                    : OutputDirectory;
-
-                if(!Directory.Exists(OutputDirectory))
+                if (string.IsNullOrWhiteSpace(OutputPath))
                 {
-                    Directory.CreateDirectory(OutputDirectory);
+                    OutputPath = Path.GetTempFileName();
                 }
-
-                using (var fileStream = new FileStream(Archive, FileMode.Open))
-                using (var archive = new ZipArchive(fileStream, ZipArchiveMode.Read))
+                if (Directory.Exists(Input))
                 {
-                    foreach (var entry in archive.Entries)
+                    ZipFile.CreateFromDirectory(Input, OutputPath);
+                }
+                else if(File.Exists(Input))
+                {
+                    using (var stream = new FileStream(OutputPath, FileMode.OpenOrCreate))
+                    using (var archive = new ZipArchive(stream, ZipArchiveMode.Create))
                     {
-                        var targetPath = Path.Combine(OutputDirectory, entry.FullName);
-                        entry.ExtractToFile(targetPath);
+                        archive.CreateEntryFromFile(Input, Path.GetFileName(Input));
                     }
                 }
                 Finished = true;
