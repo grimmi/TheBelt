@@ -10,6 +10,8 @@ namespace TheBelt.xUnit
     {
         private class EmptyAdapter : BaseAdapter
         {
+            public override ResultType ResultType => ResultType.Unknown;
+
             public override Task<string> GetResult()
             {
                 return Task.FromResult("");

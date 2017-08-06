@@ -10,6 +10,8 @@ namespace TheBelt
 {
     public class DownloadAdapter : BaseAdapter
     {
+        public override ResultType ResultType => ResultType.File;
+
         [Input(false, "url to download")]
         public string Url { get; set; }
 
