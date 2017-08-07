@@ -14,13 +14,21 @@ namespace BeltCLI
 
         private static async Task Run()
         {
-            var configuration = new Configuration();
-            configuration.SetConfigValue("downloadadapter.in.url", "http://www.golem.de");
-            var dlAdapter = AdapterFactory.CreateAdapter<DownloadAdapter>(configuration) as BaseAdapter;
-            var zipAdapter = AdapterFactory.CreateAdapter<ZipAdapter>(configuration) as BaseAdapter;
-            var unzipAdapter = AdapterFactory.CreateAdapter<UnzipAdapter>(configuration) as BaseAdapter;
 
-            var belt = new Belt(new[] { dlAdapter, zipAdapter, unzipAdapter }, configuration);
+            var dlId = Guid.NewGuid();
+            var configuration = new Configuration();
+            configuration.SetConfigValue($"{dlId}.in.url", "http://www.golem.de");
+            var dlAdapter = AdapterFactory.CreateAdapter<DownloadAdapter>(configuration, dlId) as BaseAdapter;
+            var zipId = Guid.NewGuid();
+            var zipAdapter = AdapterFactory.CreateAdapter<ZipAdapter>(configuration, zipId) as BaseAdapter;
+            var unzipId = Guid.NewGuid();
+            var unzipAdapter = AdapterFactory.CreateAdapter<UnzipAdapter>(configuration, unzipId) as BaseAdapter;
+
+            var dlToZip = new ArgumentMapping { From = $"{dlId}.out.output", To = $"{zipId}.in.input" };
+            var zipToUnzip = new ArgumentMapping { From = $"{zipId}.out.output", To = $"{unzipId}.in.archive" };
+            var mappings = new[] { dlToZip, zipToUnzip };
+
+            var belt = new Belt(new[] { dlAdapter, zipAdapter, unzipAdapter }, configuration, mappings);
 
             await belt.Run();
         }

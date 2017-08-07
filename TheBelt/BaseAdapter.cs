@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,12 +14,14 @@ namespace TheBelt
         public abstract Task Start();
         public abstract Task<string> GetResult();
 
+        public Guid Id { get; set; }
+        
         public virtual void FillConfigurationWithOutputs(Configuration config)
         {
             foreach(var outputProperty in GetOutputProperties())
             {
                 var outputValue = outputProperty.GetValue(this)?.ToString() ?? "";
-                config[$"{GetType().Name.ToLower()}.out.{GetOutputName(outputProperty)}"] = outputValue;
+                config[$"{Id}.out.{GetOutputName(outputProperty)}"] = outputValue;
             }
         }
 

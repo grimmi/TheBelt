@@ -14,7 +14,7 @@ namespace TheBelt
             var inputProperties = GetInputProperties(adapter);
             foreach(var inputProperty in inputProperties)
             {
-                var inName = $"{adapter.GetType().Name.ToLower()}.in.{inputProperty.Name.ToLower()}";
+                var inName = $"{adapter.Id}.in.{inputProperty.Name.ToLower()}";
                 try
                 {
                     var mapping = mappings.FirstOrDefault(m => m.To.ToLower().Equals(inName));
