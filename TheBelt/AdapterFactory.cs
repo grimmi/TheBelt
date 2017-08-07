@@ -15,11 +15,10 @@ namespace TheBelt
         {
             var adapterInstance = (T)Activator.CreateInstance(typeof(T));
 
-            if(adapterId == default(Guid))
+            if(adapterId != default(Guid))
             {
-                adapterId = Guid.NewGuid();
+                adapterInstance.Id = adapterId;
             }
-            adapterInstance.Id = adapterId;
 
             return adapterInstance;
         }

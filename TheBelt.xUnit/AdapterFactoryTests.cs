@@ -41,7 +41,7 @@ namespace TheBelt.xUnit
             var config = new Configuration();
             adapter.FillConfigurationWithOutputs(config);
 
-            Assert.Equal("result", config["emptyadapter.out.result"]);
+            Assert.Equal("result", config[$"{adapter.Id.ToString().ToLower()}.out.result"]);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace TheBelt
         public abstract Task Start();
         public abstract Task<string> GetResult();
 
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         
         public virtual void FillConfigurationWithOutputs(Configuration config)
         {

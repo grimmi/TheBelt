@@ -11,9 +11,9 @@ namespace TheBelt.xUnit
         public void MapperShouldFillAllNonOptionalValues()
         {
             var adapter = new DownloadAdapter();
-            var mapper = new Mapper<DownloadAdapter>();
+            var mapper = new Mapper();
             var config = new Configuration();
-            config["url"] = "http://www.google.com";
+            config[$"{adapter.Id.ToString().ToLower()}.in.url"] = "http://www.google.com";
             mapper.SetValues(adapter, config);
 
             Assert.Equal(adapter.Url, "http://www.google.com");
