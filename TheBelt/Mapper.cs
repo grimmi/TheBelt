@@ -6,18 +6,29 @@ using System.Text;
 
 namespace TheBelt
 {
-    public class Mapper<T> where T: BaseAdapter
+    public class Mapper
     {
-        public void SetValues(T adapter, Configuration config)
+        public void SetValues(BaseAdapter adapter, Configuration config, IEnumerable<ArgumentMapping> mappings = null)
         {
-            var inputProperties = GetInputProperties();
+            mappings = mappings ?? Enumerable.Empty<ArgumentMapping>();
+            var inputProperties = GetInputProperties(adapter);
             foreach(var inputProperty in inputProperties)
             {
+                var inName = $"{adapter.GetType().Name.ToLower()}.in.{inputProperty.Name.ToLower()}";
                 try
                 {
-                    var propertyValue = config.GetConfigValue(inputProperty.Name);
-                    var converted = Convert.ChangeType(propertyValue, inputProperty.PropertyType);
-                    inputProperty.SetValue(adapter, converted);
+                    var mapping = mappings.FirstOrDefault(m => m.To.ToLower().Equals(inName));
+                    if (mapping != null)
+                    {
+                        var mappedValue = config.GetConfigValue(mapping.From);
+                        inputProperty.SetValue(adapter, mappedValue);
+                    }
+                    else
+                    {
+                        var propertyValue = config.GetConfigValue(inName);
+                        var converted = Convert.ChangeType(propertyValue, inputProperty.PropertyType);
+                        inputProperty.SetValue(adapter, converted);
+                    }
                 }
                 catch(KeyNotFoundException knfEx) when (IsOptional(inputProperty))
                 {
@@ -39,9 +50,9 @@ namespace TheBelt
             return attribute.IsOptional;
         }
 
-        private IEnumerable<PropertyInfo> GetInputProperties()
+        private IEnumerable<PropertyInfo> GetInputProperties(BaseAdapter adapter)
         {
-            var properties = typeof(T).GetRuntimeProperties();
+            var properties = adapter.GetType().GetRuntimeProperties();
             var inputProperties = properties.Where(p => p.GetCustomAttribute<InputAttribute>() != null);
             return inputProperties;
         }

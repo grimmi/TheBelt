@@ -11,10 +11,10 @@ namespace TheBelt
     {
         public override ResultType ResultType => ResultType.Directory;
 
-        [Input(false)]
+        [Input(false, "archive", "archive to unzip")]
         public string Archive { get; set; }
-        [Input(true)]
-        [Output("directory into which the archive is extracted")]
+        [Input(true, "outputdirectory", "directory into which to unzip")]
+        [Output("outputdirectory", "directory into which the archive is extracted")]
         public string OutputDirectory { get; set; }
 
         public override Task<string> GetResult()

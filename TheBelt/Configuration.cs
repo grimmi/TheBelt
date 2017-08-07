@@ -6,7 +6,7 @@ namespace TheBelt
 {
     public class Configuration
     {
-        private Dictionary<string, string> Config { get; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private Dictionary<string, string> Config { get; } = new Dictionary<string, string>();
 
         public string GetConfigValue(string key) => Config[key];
 

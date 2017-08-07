@@ -11,11 +11,11 @@ namespace TheBelt
     {
         public override ResultType ResultType => ResultType.File;
 
-        [Input(false)]
+        [Input(false, "input", "file or directory to zip")]
         public string Input { get; set; }
 
-        [Input(true)]
-        [Output("the output file / directory")]
+        [Input(true, "output", "the ziparchive")]
+        [Output("output", "the ziparchive")]
         public string OutputPath { get; set; }
 
         public override Task<string> GetResult()

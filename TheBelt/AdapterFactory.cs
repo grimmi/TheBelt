@@ -15,8 +15,8 @@ namespace TheBelt
         {
             var adapterInstance = (T)Activator.CreateInstance(typeof(T));
 
-            var mapper = new Mapper<T>();
-            mapper.SetValues(adapterInstance, config);
+            //var mapper = new Mapper<T>();
+            //mapper.SetValues(adapterInstance, config);
             return adapterInstance;
         }
     }

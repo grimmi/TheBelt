@@ -12,6 +12,9 @@ namespace TheBelt.xUnit
         {
             public override ResultType ResultType => ResultType.Unknown;
 
+            [Output("result", "the result")]
+            public string SameResult => "result";
+
             public override Task<string> GetResult()
             {
                 return Task.FromResult("");
@@ -29,6 +32,16 @@ namespace TheBelt.xUnit
             var adapter = AdapterFactory.CreateAdapter<EmptyAdapter>(new Configuration());
 
             Assert.IsType<EmptyAdapter>(adapter);
+        }
+
+        [Fact]
+        public void AdapterShouldFillConfigurationWithOutputValues()
+        {
+            var adapter = new EmptyAdapter();
+            var config = new Configuration();
+            adapter.FillConfigurationWithOutputs(config);
+
+            Assert.Equal("result", config["emptyadapter.out.result"]);
         }
     }
 }

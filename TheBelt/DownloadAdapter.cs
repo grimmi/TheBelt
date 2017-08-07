@@ -12,15 +12,15 @@ namespace TheBelt
     {
         public override ResultType ResultType => ResultType.File;
 
-        [Input(false, "url to download")]
+        [Input(false, "url", "url to download")]
         public string Url { get; set; }
 
-        [Input(true, "username (optional)")]
+        [Input(true, "user", "username (optional)")]
         public string User { get; set; }
-        [Input(true, "password (optional)")]
+        [Input(true, "password", "password (optional)")]
         public string Password { get; set; }
-
-        [Output("directory that contains download result")]
+        
+        [Output("output", "directory that contains download result")]
         public string Output { get; private set; }
 
         private HttpClientHandler handler;
@@ -71,11 +71,13 @@ namespace TheBelt
     public class InputAttribute : Attribute
     {
         public bool IsOptional { get; }
+        public string Identifier { get; }
         public string Description { get; }
 
-        public InputAttribute(bool optional, string description = "")
+        public InputAttribute(bool optional, string identifier, string description = "")
         {
             IsOptional = optional;
+            Identifier = identifier;
             Description = description;
         }
     }
@@ -83,9 +85,12 @@ namespace TheBelt
     [AttributeUsage(AttributeTargets.Property)]
     public class OutputAttribute : Attribute
     {
+        public string Name { get; }
         public string Description { get; }
-        public OutputAttribute(string description)
+
+        public OutputAttribute(string name, string description)
         {
+            Name = name;
             Description = description;
         }
     }

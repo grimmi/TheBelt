@@ -11,11 +11,11 @@ namespace XmlToJsonAdapter
     {
         public override ResultType ResultType => ResultType.File;
 
-        [Input(false)]
+        [Input(false, "xml", "the input xml file")]
         public string XmlFile { get; set; }
         
-        [Input(true)]
-        [Output("resulting json file")]
+        [Input(true, "json", "the json file")]
+        [Output("json", "resulting json file")]
         public string JsonFile { get; set; }
 
         public override Task<string> GetResult()

@@ -14,14 +14,7 @@
     {
       "sequence": 2,
       "adapter": "unzipadapter",
-      "outputdirectory": "c:\temp",
-      "inputsequence": 1
-    },
-    {
-      "sequence": 3,
-      "adapter": "writeradapter",
-      "outputfile": "c:\temp\test.txt",
-      "inputsequence": 0
+      "outputdirectory": "c:\temp"
     }
   ]
 }

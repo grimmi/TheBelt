@@ -8,42 +8,21 @@ namespace BeltCLI
     {
         static void Main(string[] args)
         {
-            Run();
+            Run().Wait();
             Console.ReadKey();
         }
 
         private static async Task Run()
         {
-            //var cmdAdapter = new ProcessAdapter()
-            //{
-            //    Path = "cmd.exe",
-            //    Arguments = "/C ping 127.0.0.1"
-            //};
-            //Console.WriteLine("vor start");
-            //var task = cmdAdapter.Start();
-            //Console.WriteLine("nach start");
-            //await Task.Delay(1000);
-            //Console.WriteLine("nach delay");
-            //await task;
-            //Console.WriteLine("nach await");
-            //var result = await cmdAdapter.GetResult();
-            //Console.WriteLine("result: " + result);
+            var configuration = new Configuration();
+            configuration.SetConfigValue("downloadadapter.in.url", "http://www.golem.de");
+            var dlAdapter = AdapterFactory.CreateAdapter<DownloadAdapter>(configuration) as BaseAdapter;
+            var zipAdapter = AdapterFactory.CreateAdapter<ZipAdapter>(configuration) as BaseAdapter;
+            var unzipAdapter = AdapterFactory.CreateAdapter<UnzipAdapter>(configuration) as BaseAdapter;
 
-            //var config = new Configuration();
-            //config.SetConfigValue("xmlfile", @"c:\temp\belttest.xml");
-            //config.SetConfigValue("jsonfile", @"c:\temp\jsonfile.json");
-            //var adapter = AdapterFactory.CreateAdapter<XmlToJsonAdapter.XmlToJsonAdapter>(config);
+            var belt = new Belt(new[] { dlAdapter, zipAdapter, unzipAdapter }, configuration);
 
-            //await adapter.Start();
-            //Console.WriteLine("result: " + await adapter.GetResult());
-
-            var config = new Configuration();
-            config.SetConfigValue("input", @"c:\temp\belttest.xml");
-            config.SetConfigValue("outputpath", @"c:\temp\belt.zip");
-            var adapter = AdapterFactory.CreateAdapter<ZipAdapter>(config);
-
-            await adapter.Start();
-            Console.WriteLine($"result: {await adapter.GetResult()}");
+            await belt.Run();
         }
     }
 }
