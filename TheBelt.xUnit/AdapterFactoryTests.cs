@@ -29,7 +29,7 @@ namespace TheBelt.xUnit
         [Fact]
         public void FactoryShouldCreateCorrectType()
         {
-            var adapter = AdapterFactory.CreateAdapter<EmptyAdapter>(new Configuration());
+            var adapter = AdapterFactory.CreateAdapter<EmptyAdapter>();
 
             Assert.IsType<EmptyAdapter>(adapter);
         }

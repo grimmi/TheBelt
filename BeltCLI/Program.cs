@@ -18,11 +18,11 @@ namespace BeltCLI
             var dlId = Guid.NewGuid();
             var configuration = new Configuration();
             configuration.SetConfigValue($"{dlId}.in.url", "http://www.golem.de");
-            var dlAdapter = AdapterFactory.CreateAdapter<DownloadAdapter>(configuration, dlId) as BaseAdapter;
+            var dlAdapter = AdapterFactory.CreateAdapter<DownloadAdapter>(dlId.ToString()) as BaseAdapter;
             var zipId = Guid.NewGuid();
-            var zipAdapter = AdapterFactory.CreateAdapter<ZipAdapter>(configuration, zipId) as BaseAdapter;
+            var zipAdapter = AdapterFactory.CreateAdapter<ZipAdapter>(zipId.ToString()) as BaseAdapter;
             var unzipId = Guid.NewGuid();
-            var unzipAdapter = AdapterFactory.CreateAdapter<UnzipAdapter>(configuration, unzipId) as BaseAdapter;
+            var unzipAdapter = AdapterFactory.CreateAdapter<UnzipAdapter>(unzipId.ToString()) as BaseAdapter;
 
             var dlToZip = new ArgumentMapping { From = $"{dlId}.out.output", To = $"{zipId}.in.input" };
             var zipToUnzip = new ArgumentMapping { From = $"{zipId}.out.output", To = $"{unzipId}.in.archive" };

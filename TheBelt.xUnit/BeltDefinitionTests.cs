@@ -4,10 +4,9 @@ using Xunit;
 
 namespace TheBelt.xUnit
 {
-    public class BeltFactoryTests
+    public class BeltDefinitionTests
     {
-        [Fact]
-        public void ValidJsonShouldDeserializeIntoBeltDefinition()
+        private JObject GetSimpleJson()
         {
             var def = new JObject();
             def.Add("name", "testbelt");
@@ -24,12 +23,30 @@ namespace TheBelt.xUnit
             def.Add("configuration", config);
             def.Add("steps", JToken.FromObject(steps));
 
-            var definition = BeltFactory.FromJson(def);
+            return def;
+        }
+
+        [Fact]
+        public void ValidJsonShouldDeserializeIntoBeltDefinition()
+        {
+            var def = GetSimpleJson();
+            var definition = BeltDefinition.FromJson(def);
 
             Assert.Equal("testbelt", definition.Name);
             Assert.Equal("http://www.google.com", definition.Configuration["id01.in.url"]);
             Assert.Equal(1, definition.Steps.Count());
             Assert.Equal(0, definition.Steps.First().Sequence);
+        }
+
+        [Fact]
+        public void BeltDefinitionCreatesCompleteBelt()
+        {
+            var definition = BeltDefinition.FromJson(GetSimpleJson());
+
+            var belt = definition.CreateBelt();
+
+            Assert.Equal("http://www.google.com", belt.Configuration.GetConfigValue("id01.in.url"));
+            Assert.Equal("id01", belt.Adapters.Single().Id);
         }
     }
 }

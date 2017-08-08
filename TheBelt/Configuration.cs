@@ -17,5 +17,11 @@ namespace TheBelt
             get { return GetConfigValue(key); }
             set { SetConfigValue(key, value); }
         }
+
+        public Configuration() { }
+        public Configuration(Dictionary<string, string> config)
+        {
+            Config = config;
+        }
     }
 }

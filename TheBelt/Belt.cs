@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+[assembly:InternalsVisibleTo("TheBelt.xUnit")]
 namespace TheBelt
 {
     public class Belt
     {
-        private IEnumerable<BaseAdapter> Adapters { get; }
-        private Configuration Configuration { get; }
-        private IEnumerable<ArgumentMapping> Mappings { get; }
+        internal IEnumerable<BaseAdapter> Adapters { get; }
+        internal Configuration Configuration { get; }
+        internal IEnumerable<ArgumentMapping> Mappings { get; }
         public Belt(IEnumerable<BaseAdapter> adapters, Configuration config, IEnumerable<ArgumentMapping> mappings)
         {
             Adapters = adapters;

@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Linq;
 
 namespace TheBelt
 {
@@ -15,22 +14,6 @@ namespace TheBelt
         public Dictionary<string, object> Configuration { get; set; }
         [JsonProperty("steps")]
         public IEnumerable<Step> Steps { get; set; }
-    }
-
-    public class Step
-    {
-        [JsonProperty("sequence")]
-        public int Sequence { get; set; }
-        [JsonProperty("id")]
-        public string Id { get; set; }
-        [JsonProperty("adapter")]
-        public string AdapterType { get; set; }
-        [JsonProperty("mappings")]
-        public IEnumerable<ArgumentMapping> Mappings { get; set; }
-    }
-
-    public static class BeltFactory
-    {
 
         public static BeltDefinition FromFile(string jsonFile)
         {
@@ -41,6 +24,22 @@ namespace TheBelt
         public static BeltDefinition FromJson(JObject json)
         {
             return JsonConvert.DeserializeObject<BeltDefinition>(json.ToString());
+        }
+
+        public Belt CreateBelt()
+        {
+            var adapters = Steps.Select(MakeAdapter);
+            var mappings = Steps.SelectMany(step => step.Mappings);
+            var config = Configuration.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToString());
+            var beltConfig = new Configuration(config);
+            return new Belt(adapters, beltConfig, mappings);
+        }
+
+        private BaseAdapter MakeAdapter(Step step)
+        {
+            var adapter = AdapterFactory.CreateAdapter(step.AdapterType);
+            adapter.Id = step.Id;
+            return adapter;
         }
     }
 }
