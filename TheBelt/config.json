@@ -1,10 +1,14 @@
 {
   "name": "testbelt",
+  "configuration": 
+  {
+    "{abc-123}.in.url": "http://www.google.com"
+  },
   "steps": [
     {
       "sequence": 0,
       "id": "abc-123",
-      "adapter": "downloadapter",
+      "adapter": "downloadadapter",
       "url": "http://www.google.com"
     },
     {
