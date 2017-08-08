@@ -1,29 +1,35 @@
 {
   "name": "testbelt",
-  "configuration": 
-  {
-    "{abc-123}.in.url": "http://www.google.com"
+  "configuration": {
+    "abc-123.in.url": "http://www.google.com"
   },
   "steps": [
     {
       "sequence": 0,
       "id": "abc-123",
-      "adapter": "downloadadapter",
-      "url": "http://www.google.com"
+      "adapter": "downloadadapter"
     },
     {
       "sequence": 1,
       "id": "def-456",
       "adapter": "zipadapter",
-      "inputsequence": 0,
       "mappings": [
-        {"from": "{abc-123}.out.output", "to": "{def-456}.in.input" }
+        {
+          "from": "abc-123.out.output",
+          "to": "def-456.in.input"
+        }
       ]
     },
     {
       "sequence": 2,
+      "id": "xyz-999",
       "adapter": "unzipadapter",
-      "outputdirectory": "c:\temp"
+      "mappings": [
+        {
+          "from": "def-456.out.output",
+          "to": "xyz-999.in.archive"
+        }
+      ]
     }
   ]
 }

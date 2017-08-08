@@ -40,6 +40,7 @@ namespace TheBelt
                     Directory.CreateDirectory(OutputDirectory);
                 }
 
+                Console.WriteLine($"unzipping '{Archive}' to '{OutputDirectory}'");
                 using (var fileStream = new FileStream(Archive, FileMode.Open))
                 using (var archive = new ZipArchive(fileStream, ZipArchiveMode.Read))
                 {

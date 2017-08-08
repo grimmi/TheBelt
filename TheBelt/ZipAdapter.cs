@@ -41,11 +41,13 @@ namespace TheBelt
                 }
                 else if(File.Exists(Input))
                 {
+                    Console.WriteLine($"creating zip archive from '{Input}'...");
                     using (var stream = new FileStream(OutputPath, FileMode.OpenOrCreate))
                     using (var archive = new ZipArchive(stream, ZipArchiveMode.Create))
                     {
                         archive.CreateEntryFromFile(Input, Path.GetFileName(Input));
                     }
+                    Console.WriteLine($"created zip archive: {OutputPath}");
                 }
                 Finished = true;
             });
