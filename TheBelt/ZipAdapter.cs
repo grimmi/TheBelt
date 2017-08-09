@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -41,13 +42,13 @@ namespace TheBelt
                 }
                 else if(File.Exists(Input))
                 {
-                    Console.WriteLine($"creating zip archive from '{Input}'...");
+                    Log.Information("creating zip archive from {@Input}...", Input);
                     using (var stream = new FileStream(OutputPath, FileMode.OpenOrCreate))
                     using (var archive = new ZipArchive(stream, ZipArchiveMode.Create))
                     {
                         archive.CreateEntryFromFile(Input, Path.GetFileName(Input));
                     }
-                    Console.WriteLine($"created zip archive: {OutputPath}");
+                    Log.Information("created zip archive: {@OutputPath}", OutputPath);
                 }
                 Finished = true;
             });

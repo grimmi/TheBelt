@@ -11,10 +11,10 @@ namespace TheBelt
                 .MinimumLevel.Debug()
                 .WriteTo.SQLite(@"logs\belt.db", restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug, storeTimestampInUtc: true)
                 .WriteTo.RollingFile(@"logs\belt-{Date}.log", restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
-                .WriteTo.Console(Serilog.Events.LogEventLevel.Debug)
+                .WriteTo.Console(Serilog.Events.LogEventLevel.Information)
                 .CreateLogger();
 
-            Log.Error("error logging!");
+            Log.Information("Init done");
         }
 
         public static void Teardown()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -21,18 +22,20 @@ namespace TheBelt
                     if (mapping != null)
                     {
                         var mappedValue = config.GetConfigValue(mapping.From);
+                        Log.Information("setting [{@inName}] to [{@inputValue}] (from mapping)", inName, mappedValue);
                         inputProperty.SetValue(adapter, mappedValue);
                     }
                     else
                     {
                         var propertyValue = config.GetConfigValue(inName);
                         var converted = Convert.ChangeType(propertyValue, inputProperty.PropertyType);
+                        Log.Information("setting [{@inName}] to [{@inputValue}] (without mapping)", inName, converted);
                         inputProperty.SetValue(adapter, converted);
                     }
                 }
                 catch(KeyNotFoundException knfEx) when (IsOptional(inputProperty))
                 {
-                    // ignore if property is optional
+                    Log.Debug(knfEx, "key not found: {@inName}; doesn't matter, because it's optional", inName);
                 }
                 catch(Exception ex) when 
                     (ex is InvalidCastException || ex is FormatException 

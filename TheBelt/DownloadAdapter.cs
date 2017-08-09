@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -28,7 +29,7 @@ namespace TheBelt
 
         private Task<HttpResponseMessage> getTask;
 
-        public override bool Finished => getTask.IsCompleted;
+        public override bool Finished => getTask?.IsCompleted ?? false;
 
         public DownloadAdapter()
         {
@@ -42,7 +43,7 @@ namespace TheBelt
             {
                 throw new InvalidOperationException("you need to set the url first!");
             }
-            Console.WriteLine($"downloading '{Url}'...");
+            Log.Information("downloading {@Url}...", Url);
             handler.Credentials = new NetworkCredential(User, Password);
             getTask = client.GetAsync(Url);
             return getTask;
@@ -61,7 +62,7 @@ namespace TheBelt
 
             var response = await getTask.Result.Content.ReadAsByteArrayAsync();
             var tmpPath = Path.GetTempFileName();
-            Console.WriteLine($"writing response to '{tmpPath}'...");
+            Log.Information("writing response to {@tmpPath}...", tmpPath);
             File.WriteAllBytes(tmpPath, response);
             Output = tmpPath;
             return tmpPath;

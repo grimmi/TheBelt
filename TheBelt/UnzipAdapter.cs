@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -40,7 +41,7 @@ namespace TheBelt
                     Directory.CreateDirectory(OutputDirectory);
                 }
 
-                Console.WriteLine($"unzipping '{Archive}' to '{OutputDirectory}'");
+                Log.Information("unzipping {@Archive} to {@OutputDirectory}", Archive, OutputDirectory);
                 using (var fileStream = new FileStream(Archive, FileMode.Open))
                 using (var archive = new ZipArchive(fileStream, ZipArchiveMode.Read))
                 {
