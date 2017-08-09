@@ -9,11 +9,11 @@ namespace TheBelt
     public class BeltDefinition
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
         [JsonProperty("configuration")]
-        public Dictionary<string, object> Configuration { get; set; }
+        internal Dictionary<string, object> Configuration { get; set; }
         [JsonProperty("steps")]
-        public IEnumerable<Step> Steps { get; set; }
+        internal IEnumerable<Step> Steps { get; set; }
 
         public static BeltDefinition FromFile(string jsonFile)
         {
@@ -28,7 +28,7 @@ namespace TheBelt
 
         public Belt CreateBelt()
         {
-            var adapters = Steps.Select(MakeAdapter);
+            var adapters = Steps.OrderBy(step => step.Sequence).Select(MakeAdapter);
             var mappings = Steps.SelectMany(step => step.Mappings);
             var config = Configuration.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToString());
             var beltConfig = new Configuration(config);
