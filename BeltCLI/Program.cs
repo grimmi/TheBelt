@@ -8,7 +8,9 @@ namespace BeltCLI
     {
         static void Main(string[] args)
         {
+            BeltSetup.Init();
             Run().Wait();
+            BeltSetup.Teardown();
             Console.ReadKey();
         }
 

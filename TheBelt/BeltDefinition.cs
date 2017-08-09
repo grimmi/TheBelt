@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Serilog;
 
 namespace TheBelt
 {
@@ -17,12 +18,14 @@ namespace TheBelt
 
         public static BeltDefinition FromFile(string jsonFile)
         {
+            Log.Information("Loading belt definition from {@File}", jsonFile);
             var definition = JsonConvert.DeserializeObject<BeltDefinition>(File.ReadAllText(jsonFile));
             return definition;
         }
 
         public static BeltDefinition FromJson(JObject json)
         {
+            Log.Information("Loading belt definition from {@Json}", json);
             return JsonConvert.DeserializeObject<BeltDefinition>(json.ToString());
         }
 
@@ -32,7 +35,9 @@ namespace TheBelt
             var mappings = Steps.SelectMany(step => step.Mappings);
             var config = Configuration.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToString());
             var beltConfig = new Configuration(config);
-            return new Belt(adapters, beltConfig, mappings);
+            var belt = new Belt(adapters, beltConfig, mappings);
+            Log.Information("created belt: {belt}", belt);
+            return belt;
         }
 
         private BaseAdapter MakeAdapter(Step step)
