@@ -23,5 +23,7 @@ namespace TheBelt
         {
             Config = config;
         }
+
+        public bool HasKey(string key) => Config.ContainsKey(key);
     }
 }

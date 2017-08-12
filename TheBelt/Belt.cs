@@ -33,21 +33,35 @@ namespace TheBelt
         public async Task Run()
         {
             var mapper = new Mapper();
-            foreach(var adapter in Adapters)
+            var steps = Adapters.GroupBy(a => a.Sequence).OrderBy(g => g.Key);
+
+            foreach(var step in steps)
             {
-                CurrentStep = "setting values on adapter";
-                mapper.SetValues(adapter, Configuration, Mappings);
-                Log.Debug("Adapter: [{@adapter}]", adapter);
-                Log.Information("starting {$adapter}...", adapter);
-                var sw = Stopwatch.StartNew();
-                var adapterTask = adapter.Start();
-                CurrentStep = "running adapter";
-                await adapterTask;
-                var result = await adapter.GetResult();
-                Log.Debug("Adapter: [{@adapter}] | Result: [{@result}] | Runtime: {@runtime}", adapter, result, sw.Elapsed);
-                Log.Information("{$adapter} finished; result: {$result}; runtime: {$runtime}", adapter, result, sw.Elapsed);
-                CurrentStep = "processing result";
-                adapter.FillConfigurationWithOutputs(Configuration);
+                Log.Information("starting step {@stepnumber}", step.Key);
+                var stepTasks = new Dictionary<BaseAdapter, Task>();
+                var timers = new Dictionary<BaseAdapter, Stopwatch>();
+                foreach (var adapter in step)
+                {
+                    CurrentStep = "setting values on adapter";
+                    mapper.SetValues(adapter, Configuration, Mappings);
+                    Log.Debug("Adapter: [{@adapter}]", adapter);
+                    Log.Information("starting {$adapter}...", adapter);
+                    timers.Add(adapter, Stopwatch.StartNew());
+                    stepTasks.Add(adapter, adapter.Start());
+                    CurrentStep = "running adapter";
+                }
+
+                await Task.WhenAll(stepTasks.Values);
+
+                foreach(var adapter in stepTasks.Keys)
+                {
+                    var sw = timers[adapter];
+                    var result = await adapter.GetResult();
+                    Log.Debug("Adapter: [{@adapter}] | Result: [{@result}] | Runtime: {@runtime}", adapter, result, sw.Elapsed);
+                    Log.Information("{$adapter} finished; result: {$result}; runtime: {$runtime}", adapter, result, sw.Elapsed);
+                    CurrentStep = "processing result";
+                    adapter.FillConfigurationWithOutputs(Configuration);
+                }
             }
         }
 

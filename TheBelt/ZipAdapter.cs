@@ -15,6 +15,9 @@ namespace TheBelt
         [Input(false, "input", "file or directory to zip")]
         public string Input { get; set; }
 
+        [Input(false, "mode", "either [directory] or [file]; default: directory")]
+        public string Mode { get; set; }
+
         [Input(true, "output", "the ziparchive")]
         [Output("output", "the ziparchive")]
         public string OutputPath { get; set; }
@@ -32,13 +35,15 @@ namespace TheBelt
         {
             return Task.Run(() =>
             {
+
                 if (string.IsNullOrWhiteSpace(OutputPath))
                 {
                     OutputPath = Path.GetTempFileName();
                 }
-                if (Directory.Exists(Input))
+                if (string.IsNullOrWhiteSpace(Mode) || Mode.ToLower().Equals("directory") && Directory.Exists(Path.GetDirectoryName(Input)))
                 {
-                    ZipFile.CreateFromDirectory(Input, OutputPath);
+                    var inPath = Path.GetDirectoryName(Input);
+                    ZipFile.CreateFromDirectory(inPath, OutputPath);
                 }
                 else if(File.Exists(Input))
                 {

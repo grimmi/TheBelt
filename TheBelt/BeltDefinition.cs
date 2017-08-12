@@ -31,7 +31,7 @@ namespace TheBelt
 
         public Belt CreateBelt()
         {
-            var adapters = Steps.OrderBy(step => step.Sequence).Select(MakeAdapter);
+            var adapters = Steps.OrderBy(step => step.Sequence).SelectMany(MakeAdapter);
             var mappings = Steps.SelectMany(step => step.Mappings);
             var config = Configuration.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToString());
             var beltConfig = new Configuration(config);
@@ -40,11 +40,15 @@ namespace TheBelt
             return belt;
         }
 
-        private BaseAdapter MakeAdapter(Step step)
+        private IEnumerable<BaseAdapter> MakeAdapter(Step step)
         {
-            var adapter = AdapterFactory.CreateAdapter(step.AdapterType);
-            adapter.Id = step.Id;
-            return adapter;
+            foreach(var adapterDescription in step.Adapters)
+            {
+                var adapter = AdapterFactory.CreateAdapter(adapterDescription.AdapterType);
+                adapter.Id = adapterDescription.Id;
+                adapter.Sequence = step.Sequence;
+                yield return adapter;
+            }
         }
     }
 }

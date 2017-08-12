@@ -16,7 +16,7 @@ namespace BeltCLI
 
         private static async Task Run()
         {
-            var definition = BeltDefinition.FromFile("./bin/Debug/netcoreapp1.1/config.json");
+            var definition = BeltDefinition.FromFile("./bin/Debug/netcoreapp1.1/parallelconfig.json");
             var belt = definition.CreateBelt();
 
             await belt.Run();

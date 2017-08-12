@@ -1,0 +1,57 @@
+{
+  "name": "testbelt",
+  "configuration": {
+    "abc-123.in.url": "http://www.google.com",
+    "abc-123.in.output": "c:\\temp\\dl",
+    "def-123.in.output": "c:\\temp\\dl",
+    "def-123.in.url": "http://www.golem.de",
+    "def-456.in.mode": "directory",
+    "def-456.in.outputpath": "c:\\temp\\zipped.zip"
+  },
+  "steps": [
+    {
+      "name": "downloads",
+      "sequence": 0,
+      "adapters": [
+        {
+          "id": "abc-123",
+          "adapter": "downloadadapter"
+        },
+        {
+          "id": "def-123",
+          "adapter":  "downloadadapter"
+        }
+      ]
+    },
+    {
+      "sequence": 1,
+      "adapters": [
+        {
+          "id": "def-456",
+          "adapter": "zipadapter"
+        }
+      ],
+      "mappings": [
+        {
+          "from": "abc-123.out.output",
+          "to": "def-456.in.input"
+        }
+      ]
+    },
+    {
+      "sequence": 2,
+      "adapters": [
+        {
+          "id": "xyz-999",
+          "adapter": "unzipadapter"
+        }
+      ],
+      "mappings": [
+        {
+          "from": "def-456.out.output",
+          "to": "xyz-999.in.archive"
+        }
+      ]
+    }
+  ]
+}

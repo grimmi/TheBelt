@@ -6,12 +6,11 @@ namespace TheBelt
 {
     public class Step
     {
+        [JsonProperty("name")]
+        public string Name { get; set; } = "";
         [JsonProperty("sequence")]
         public int Sequence { get; set; } = -1;
-        [JsonProperty("id")]
-        public string Id { get; set; } = "";
-        [JsonProperty("adapter")]
-        public string AdapterType { get; set; } = "";
+        public IEnumerable<AdapterDescription> Adapters { get; set; } = Enumerable.Empty<AdapterDescription>();
         [JsonProperty("mappings")]
         public IEnumerable<ArgumentMapping> Mappings { get; set; } = Enumerable.Empty<ArgumentMapping>();
     }

@@ -11,6 +11,7 @@ namespace TheBelt
     {
         public abstract ResultType ResultType { get; }
         public virtual bool Finished { get; protected set; } = false;
+        public int Sequence { get; set; }
         public abstract Task Start();
         public abstract Task<string> GetResult();
 
@@ -21,7 +22,11 @@ namespace TheBelt
             foreach(var outputProperty in GetOutputProperties())
             {
                 var outputValue = outputProperty.GetValue(this)?.ToString() ?? "";
-                config[$"{Id}.out.{GetOutputName(outputProperty)}"] = outputValue;
+                var key = $"{Id}.out.{GetOutputName(outputProperty)}";
+                if (!config.HasKey(key))
+                {
+                    config[key] = outputValue;
+                }
             }
         }
 
