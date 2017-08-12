@@ -32,6 +32,10 @@ namespace TheBelt
 
         public async Task Run()
         {
+            Log.Information("---------------------------------------------------------");
+            Log.Information("---------- Belt started at {@now}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            Log.Information("---------------------------------------------------------");
+
             var mapper = new Mapper();
             var steps = Adapters.GroupBy(a => a.Sequence).OrderBy(g => g.Key);
 
