@@ -33,9 +33,10 @@ namespace TheBelt
                         inputProperty.SetValue(adapter, converted);
                     }
                 }
+#pragma warning disable 0168
                 catch(KeyNotFoundException knfEx) when (IsOptional(inputProperty))
-                {
-                    Log.Debug(knfEx, "key not found: {@inName}; doesn't matter, because it's optional", inName);
+#pragma warning restore 0168
+                {                    
                 }
                 catch(Exception ex) when 
                     (ex is InvalidCastException || ex is FormatException 
