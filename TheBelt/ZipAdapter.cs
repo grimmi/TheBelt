@@ -43,6 +43,10 @@ namespace TheBelt
                 if (string.IsNullOrWhiteSpace(Mode) || Mode.ToLower().Equals("directory") && Directory.Exists(Path.GetDirectoryName(Input)))
                 {
                     var inPath = Path.GetDirectoryName(Input);
+                    if(File.Exists(OutputPath))
+                    {
+                        File.Delete(OutputPath);
+                    }
                     ZipFile.CreateFromDirectory(inPath, OutputPath);
                 }
                 else if(File.Exists(Input))
