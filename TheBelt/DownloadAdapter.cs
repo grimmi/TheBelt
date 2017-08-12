@@ -13,7 +13,6 @@ namespace TheBelt
     public class DownloadAdapter : BaseAdapter
     {
         public override ResultType ResultType => ResultType.File;
-        private static Random random = new Random();
 
         [Input(false, "url", "url to download")]
         public string Url { get; set; }
@@ -47,10 +46,10 @@ namespace TheBelt
                 throw new InvalidOperationException("you need to set the url first!");
             }
             Log.Information("downloading {@Url}...", Url);
-            await Task.Delay(random.Next(3000, 10000));
             handler.Credentials = new NetworkCredential(User, Password);
             getTask = client.GetAsync(Url);
             await getTask;
+            Log.Information("{@Url} downloaded", Url);
         }
 
         public override async Task<string> GetResult()
