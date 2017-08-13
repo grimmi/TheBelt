@@ -15,7 +15,8 @@ namespace TheBelt
             var inputProperties = GetInputProperties(adapter);
             foreach(var inputProperty in inputProperties)
             {
-                var inName = $"{adapter.Id}.in.{inputProperty.Name.ToLower()}";
+                var attributeName = GetAttributeName(inputProperty);
+                var inName = $"{adapter.Id}.in.{attributeName.ToLower()}";
                 try
                 {
                     var mapping = mappings.FirstOrDefault(m => m.To.ToLower().Equals(inName));
@@ -27,10 +28,18 @@ namespace TheBelt
                     }
                     else
                     {
-                        var propertyValue = config.GetConfigValue(inName);
-                        var converted = Convert.ChangeType(propertyValue, inputProperty.PropertyType);
-                        Log.Information("setting [{@inName}] to [{@inputValue}] (without mapping)", inName, converted);
-                        inputProperty.SetValue(adapter, converted);
+                        if (config.HasKey(inName))
+                        {
+                            var propertyValue = config.GetConfigValue(inName);
+                            var converted = Convert.ChangeType(propertyValue, inputProperty.PropertyType);
+                            Log.Information("setting [{@inName}] to [{@inputValue}] (from configuration)", inName, converted);
+                            inputProperty.SetValue(adapter, converted);
+                        }
+                        else if(!IsOptional(inputProperty))
+                        {
+                            Log.Error("missing argument {@inputargument}! must either be mapped or provided via configuration!", inName);
+                            throw new MissingArgumentException(inName);
+                        }
                     }
                 }
 #pragma warning disable 0168
@@ -46,6 +55,12 @@ namespace TheBelt
                     throw;
                 }
             }
+        }
+
+        private string GetAttributeName(PropertyInfo property)
+        {
+            var attribute = property.GetCustomAttribute<InputAttribute>();
+            return attribute.Identifier;
         }
 
         private bool IsOptional(PropertyInfo property)

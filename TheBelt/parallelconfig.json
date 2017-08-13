@@ -6,7 +6,7 @@
     "def-123.in.output": "c:\\temp\\dl",
     "def-123.in.url": "http://www.golem.de",
     "def-456.in.mode": "directory",
-    "def-456.in.outputpath": "c:\\temp\\zipped.zip"
+    "def-456.in.output": "c:\\temp\\zipped.zip"
   },
   "steps": [
     {
