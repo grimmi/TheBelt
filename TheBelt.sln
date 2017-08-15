@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.12
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBelt", "TheBelt\TheBelt.csproj", "{EAB91914-4DDE-46F4-9EF8-A87D09F4DD03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBelt", "TheBelt\TheBelt.csproj", "{EAB91914-4DDE-46F4-9EF8-A87D09F4DD03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBelt.xUnit", "TheBelt.xUnit\TheBelt.xUnit.csproj", "{0FC5F0AB-45F8-453E-99EB-82EF38E6A5EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBelt.xUnit", "TheBelt.xUnit\TheBelt.xUnit.csproj", "{0FC5F0AB-45F8-453E-99EB-82EF38E6A5EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeltCLI", "BeltCLI\BeltCLI.csproj", "{0DA8E1E5-D408-4018-8BF6-F3C6D78E97A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeltCLI", "BeltCLI\BeltCLI.csproj", "{0DA8E1E5-D408-4018-8BF6-F3C6D78E97A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBelt.XmlToJson", "TheBelt.XmlToJson\TheBelt.XmlToJson.csproj", "{2BFB3740-90CB-4489-BD95-E95FDD7E8AFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBelt.XmlToJson", "TheBelt.XmlToJson\TheBelt.XmlToJson.csproj", "{2BFB3740-90CB-4489-BD95-E95FDD7E8AFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +36,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {512AA0F7-80C5-48C5-9417-2660916C7EA4}
 	EndGlobalSection
 EndGlobal
