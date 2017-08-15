@@ -42,11 +42,6 @@ namespace TheBelt
                         }
                     }
                 }
-#pragma warning disable 0168
-                catch(KeyNotFoundException knfEx) when (IsOptional(inputProperty))
-#pragma warning restore 0168
-                {                    
-                }
                 catch(Exception ex) when 
                     (ex is InvalidCastException || ex is FormatException 
                     || ex is OverflowException || ex is ArgumentNullException)
