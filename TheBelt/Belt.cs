@@ -67,6 +67,10 @@ namespace TheBelt
                     adapter.FillConfigurationWithOutputs(Configuration);
                 }
             }
+
+            Log.Information("---------------------------------------------------------");
+            Log.Information("---------- Belt finished at {@now}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            Log.Information("---------------------------------------------------------");
         }
 
         public override string ToString()
