@@ -1,2 +1,7 @@
 language: csharp
 solution: TheBelt.sln
+mono: none
+dotnet: 2.0
+dist: trusty
+script:
+  - dotnet restore
